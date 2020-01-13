@@ -168,13 +168,19 @@ public class UserAccount {
                 String password = resultSet.getString("PASSWORD");
                 String firstname = resultSet.getString("FIRSTNAME");
                 String lastname = resultSet.getString("LASTNAME");
-                String role = resultSet.getString("ROLE");
+                Boolean isAdmin = resultSet.getBoolean("ISADMIN");
+                Boolean isINF = resultSet.getBoolean("ISINFLUENCER");
+                Boolean isCUST = resultSet.getBoolean("ISCUSTOMER");
+                Boolean isAMB = resultSet.getBoolean("ISAMBASSADOR");
                 UserAccount account = new UserAccount();
                 account.setUsername(username);
-                account.setRole(role);
                 account.setFirstName(firstname);
                 account.setLastName(lastname);
                 account.setPassword(password);
+                account.setIsAdmin(isAdmin);
+                account.setIsCustomer(isCUST);
+                account.setIsAmbassador(isAMB);
+                account.setIsInfluencer(isINF);
                userAccountsList.add(account);
             }
             return userAccountsList;

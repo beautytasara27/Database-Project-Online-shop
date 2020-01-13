@@ -312,14 +312,14 @@ public class AdminDashboard extends javax.swing.JFrame {
         
         ArrayList<UserAccount> list = UserAccount.getAllUserAccounts();
         
-        Object[][] rows = new Object[list.size()][5];
+        Object[][] rows = new Object[list.size()][3];
         for(int i = 0; i < list.size(); i++){
             rows[i][0] = list.get(i).getUsername();
             rows[i][1] = list.get(i).getFirstName();
             rows[i][2] = list.get(i).getLastName();
-            rows[i][3] = list.get(i).getRole();
+           // rows[i][3] = list.get(i).getRole();
            
-        String[] columnName = {"Username","FirstName","LastName","Role"};
+        String[] columnName = {"Username","FirstName","LastName"};
         TableModel model;
         model = new TableModel(rows,columnName);
         jTable2.setModel(model);

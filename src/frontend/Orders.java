@@ -7,7 +7,9 @@ package frontend;
 
 import backend.Order;
 import backend.Tutorial;
-import static frontend.ProductTable.productidcust;
+import backend.UserAccount;
+import static frontend.Login.currentUserId;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +19,7 @@ import java.util.logging.Logger;
  * @author beauty
  */
 public class Orders extends javax.swing.JFrame {
-
+    private Boolean isAdmin;
     /**
      * Creates new form Orders
      */
@@ -98,10 +100,20 @@ public class Orders extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         try {
             // TODO add your handling code here:
-            AdminDashboard db = new AdminDashboard();
-            this.setVisible(false);
-            db.setVisible(true);
+            if (isAdmin){
+                AdminDashboard db = new AdminDashboard();
+                this.setVisible(false);
+                db.setVisible(true);
+            }
+            else{
+                CartDisplay cart = new CartDisplay();
+                this.setVisible(false);
+                cart.setVisible(true);
+            }
+            
         } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Orders.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(Orders.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1MouseClicked
@@ -146,8 +158,15 @@ public class Orders extends javax.swing.JFrame {
     }
     public void populateJTable() throws ClassNotFoundException{
         
-        ArrayList<Order> list = Order.getAllOrders();
-        
+        UserAccount user = UserAccount.getUserAccountByUserName(currentUserId);
+        ArrayList<Order> list;
+        isAdmin = user.getIsAdmin();
+        if (user.getIsAdmin()==true){
+            list = Order.getAllOrders();
+        }
+        else{
+            list = Order.getOrdersByUsername(currentUserId);
+        }
         Object[][] rows = new Object[list.size()][4];
         for(int i = 0; i < list.size(); i++){
             rows[i][0] = list.get(i).getOrderId();
